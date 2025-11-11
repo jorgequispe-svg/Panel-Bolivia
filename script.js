@@ -1,81 +1,60 @@
 document.addEventListener('DOMContentLoaded', function () {
-  // ▼▼▼ Botón de comentario → abre modal ▼▼▼
+  // ▼▼▼ Botón de comentario ▼▼▼
   const btnComentario = document.getElementById('btnComentario');
-  const modal = document.getElementById('modalComentario');
-  const closeBtn = document.querySelector('.close');
-  const experienciaTexto = document.getElementById('experienciaTexto');
-  const btnGuardar = document.getElementById('btnGuardarExperiencia');
-  const listaExperiencias = document.getElementById('listaExperiencias');
-
-  // Mostrar modal
   if (btnComentario) {
     btnComentario.addEventListener('click', function () {
-      modal.style.display = 'flex';
-      experienciaTexto.focus();
+      alert('¡Deja un comentario sobre la página!');
     });
   }
 
-  // Cerrar modal (X o fuera)
-  if (closeBtn) {
-    closeBtn.addEventListener('click', () => modal.style.display = 'none');
-  }
-  window.addEventListener('click', (e) => {
-    if (e.target === modal) modal.style.display = 'none';
+  // ▼▼▼ Menú hamburguesa ▼▼▼
+  const hamburger = document.querySelector('.hamburger');
+  const deptoNav = document.querySelector('nav.grid-deptos');
+  const overlay = document.getElementById('overlay');
+
+  // Si algún elemento no existe, salimos
+  if (!hamburger || !deptoNav || !overlay) return;
+
+  // Abrir/cerrar menú
+  hamburger.addEventListener('click', function () {
+    const isExpanded = this.getAttribute('aria-expanded') === 'true';
+    this.setAttribute('aria-expanded', !isExpanded);
+    
+    deptoNav.classList.toggle('show');
+    overlay.classList.toggle('show');
+
+    // Animación: hamburguesa → ×
+    const spans = this.querySelectorAll('span');
+    if (!isExpanded) {
+      spans[0].style.transform = 'rotate(45deg) translate(5px, 5px)';
+      spans[1].style.opacity = '0';
+      spans[2].style.transform = 'rotate(-45deg) translate(5px, -5px)';
+    } else {
+      spans[0].style.transform = 'rotate(0) translate(0, 0)';
+      spans[1].style.opacity = '1';
+      spans[2].style.transform = 'rotate(0) translate(0, 0)';
+    }
   });
 
-  // Cargar experiencias guardadas al inicio
-  function cargarExperiencias() {
-    const guardadas = JSON.parse(localStorage.getItem('experiencias')) || [];
-    if (guardadas.length === 0) {
-      listaExperiencias.innerHTML = '<div class="sin-experiencias">Aún no hay experiencias compartidas. ¡Sé el primero! 🌟</div>';
-    } else {
-      listaExperiencias.innerHTML = '';
-      guardadas.slice().reverse().forEach((exp, index) => {
-        const div = document.createElement('div');
-        div.className = 'experiencia-item';
-        div.innerHTML = `
-          <p>${exp.texto}</p>
-          <small>📅 ${exp.fecha}</small>
-        `;
-        listaExperiencias.appendChild(div);
-      });
-    }
+  // Cerrar menú al hacer clic en overlay
+  overlay.addEventListener('click', function () {
+    closeMenu();
+  });
+
+  // Cerrar menú al hacer clic en cualquier enlace del menú
+  document.querySelectorAll('nav.grid-deptos a').forEach(link => {
+    link.addEventListener('click', closeMenu);
+  });
+
+  // Función para cerrar menú
+  function closeMenu() {
+    deptoNav.classList.remove('show');
+    overlay.classList.remove('show');
+    hamburger.setAttribute('aria-expanded', 'false');
+    
+    const spans = hamburger.querySelectorAll('span');
+    spans[0].style.transform = 'rotate(0) translate(0, 0)';
+    spans[1].style.opacity = '1';
+    spans[2].style.transform = 'rotate(0) translate(0, 0)';
   }
-
-  // Guardar nueva experiencia
-  if (btnGuardar) {
-    btnGuardar.addEventListener('click', function () {
-      const texto = experienciaTexto.value.trim();
-      if (!texto) {
-        alert('Por favor, escribe algo antes de enviar ✍️');
-        return;
-      }
-
-      const nuevaExp = {
-        texto: texto,
-        fecha: new Date().toLocaleString('es-BO', {
-          weekday: 'long',
-          year: 'numeric',
-          month: 'long',
-          day: 'numeric',
-          hour: '2-digit',
-          minute: '2-digit'
-        })
-      };
-
-      const guardadas = JSON.parse(localStorage.getItem('experiencias')) || [];
-      guardadas.push(nuevaExp);
-      localStorage.setItem('experiencias', JSON.stringify(guardadas));
-
-      // Limpiar y cerrar
-      experienciaTexto.value = '';
-      modal.style.display = 'none';
-
-      // Recargar lista
-      cargarExperiencias();
-    });
-  }
-
-  // Cargar al inicio
-  cargarExperiencias();
 });
