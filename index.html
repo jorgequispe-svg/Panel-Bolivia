@@ -17,7 +17,26 @@
       <span></span>
     </button>
     <h1>Departamentos de Bolivia</h1>
-    <button class="btn-comentario" id="btnComentario">💬 Comentar</button>
+
+    <!-- Modal de comentario -->
+<div id="modalComentario" class="modal">
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <h3>💬 Cuéntanos tu experiencia</h3>
+    <label for="experienciaTexto">Escribe aquí tu vivencia, recuerdo o consejo:</label>
+    <textarea id="experienciaTexto" rows="5" placeholder="Ej: 'La primera vez que probé un fricasé en El Alto...'" required></textarea>
+    <button id="btnGuardarExperiencia">📤 Enviar experiencia</button>
+  </div>
+</div>
+
+<!-- Sección donde se mostrarán las experiencias (al final de main o antes del footer) -->
+<section id="experiencias" class="experiencias-seccion">
+  <h2>🌟 Experiencias compartidas</h2>
+  <div id="listaExperiencias" class="lista-experiencias">
+    <!-- Aquí se cargarán dinámicamente -->
+  </div>
+</section>
+
     <nav aria-label="Navegación principal">
       <ul>
         <li><a href="#equipo">Nuestro equipo</a></li>
@@ -49,12 +68,12 @@
           <p><strong>Comida típica:</strong> Las comidas típicas de La Paz, Bolivia, incluyen el Fricasé, el Plato Paceño, 
             el Chairo, el Queso Humacha entre otros. Otros platos populares son las Salteñas y la comida callejera como los anticuchos.  </p>
             <div class="centrar-img">
-              <img src="imagenes/plapac.jpg" alt="plato Paceño">
-              <img src="imagenes/chairo.jpg" alt="chairo">
+              <img src="fotos/plapac.jpg" alt="plato Paceño">
+              <img src="fotos/chairo.jpg" alt="chairo">
             </div>
           <p><strong>Danza típica:</strong> Algunas de las danzas típicas y representativas de La Paz, Bolivia, 
             son los Caporales, la Kullawada (o Cullaguada), los Chutas, la Saya Afroboliviana, la Morenada y la Cueca Paceña. </p>
-          <img src="imagenes/danzala.jpg" alt="Departamento de Tarija" class="centrar-img">
+          <img src="fotos/danzala.jpg" alt="Departamento de Tarija" class="centrar-img">
           <p><strong>Historia:</strong> La Paz tiene una historia rica que va desde sus orígenes como centro del imperio Tiwanaku y luego inca, 
             hasta la fundación de la ciudad colonial española en 1548 por Alonso de Mendoza en nombre de la paz que siguió a las guerras civiles 
             entre conquistadores, conmemorando esta última con el nombre de Nuestra Señora de La Paz. La ciudad fue un centro administrativo y de 
